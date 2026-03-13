@@ -1,25 +1,15 @@
 ---
 name: ads
-description: >
-  Comprehensive paid advertising audit and optimization for any business type.
-  Performs full multi-platform audits (Google Ads, Meta Ads, LinkedIn Ads, TikTok
-  Ads, Microsoft Ads), single-platform deep analysis, conversion tracking health
-  checks, creative quality assessment, budget allocation optimization, bidding
-  strategy evaluation, and compliance verification. Industry detection for SaaS,
-  e-commerce, local service, B2B enterprise, info products, mobile app, real
-  estate, healthcare, finance, and agency. Triggers on: "ads", "PPC", "paid
-  advertising", "Google Ads", "Meta Ads", "Facebook Ads", "LinkedIn Ads",
-  "TikTok Ads", "Microsoft Ads", "Bing Ads", "ad audit", "campaign audit",
-  "ROAS", "conversion tracking", "creative fatigue", "bid strategy".
-argument-hint: "audit | google | meta | youtube | linkedin | tiktok | microsoft | apple | creative | landing | budget | plan <type> | competitor"
+description: "Comprehensive paid advertising audit and optimization for any business type. Performs full multi-platform audits (Google Ads, Meta Ads, LinkedIn Ads, TikTok Ads, Microsoft Ads), single-platform deep analysis, conversion tracking health checks, creative quality assessment, budget allocation optimization, bidding strategy evaluation, and compliance verification. Industry detection for SaaS, e-commerce, local service, B2B enterprise, info products, mobile app, real estate, healthcare, finance, and agency. Triggers on: ads, PPC, paid advertising, Google Ads, Meta Ads, Facebook Ads, LinkedIn Ads, TikTok Ads, Microsoft Ads, Bing Ads, ad audit, campaign audit, ROAS, conversion tracking, creative fatigue, bid strategy, brand DNA, generate ads, create campaign, product photography, ad creative generation."
+argument-hint: "audit | google | meta | youtube | linkedin | tiktok | microsoft | apple | creative | landing | budget | plan <type> | competitor | dna <url> | create | generate | photoshoot"
 license: MIT
 ---
 
 # Ads — Multi-Platform Paid Advertising Audit & Optimization
 
 Comprehensive ad account analysis across all major platforms (Google, Meta,
-LinkedIn, TikTok, Microsoft). Orchestrates 12 specialized sub-skills and
-6 subagents.
+LinkedIn, TikTok, Microsoft). Orchestrates 17 specialized sub-skills and
+10 agents (6 audit + 4 creative).
 
 ## Quick Reference
 
@@ -38,6 +28,10 @@ LinkedIn, TikTok, Microsoft). Orchestrates 12 specialized sub-skills and
 | `/ads plan <business-type>` | Strategic ad plan with industry templates |
 | `/ads apple` | Apple Search Ads (ASA) deep analysis |
 | `/ads competitor` | Competitor ad intelligence analysis |
+| `/ads dna <url>` | Extract brand DNA from website → `brand-profile.json` |
+| `/ads create` | Generate campaign concepts + copy briefs → `campaign-brief.md` |
+| `/ads generate` | Generate AI ad images from brief → `ad-assets/` |
+| `/ads photoshoot` | Product photography in 5 styles (Studio, Floating, Ingredient, In Use, Lifestyle) |
 
 ## Context Intake (Required — Always Do This First)
 
@@ -73,6 +67,18 @@ When the user invokes `/ads audit`, delegate to subagents in parallel:
 
 For individual commands (`/ads google`, `/ads meta`, etc.), load the relevant
 sub-skill directly. Still collect context first if not already provided.
+
+## Creative Workflow
+
+Sequential pipeline — each step is independently runnable:
+1. `/ads dna <url>` → `brand-profile.json` in current directory
+2. `/ads create` → reads profile + optional audit results → `campaign-brief.md`
+3. `/ads generate` → reads brief + profile → `ad-assets/` directory
+4. `/ads photoshoot` → standalone or reads profile for style injection
+
+Requires `GOOGLE_API_KEY` (Gemini default) or `ADS_IMAGE_PROVIDER` + matching key.
+If API key is missing, `/ads generate` and `/ads photoshoot` display setup
+instructions and exit — they never fail silently.
 
 ## Industry Detection
 
@@ -119,6 +125,14 @@ When sub-skills or agents reference `ads/references/*.md`, resolve to
 - `references/linkedin-audit.md` — 25-check LinkedIn Ads audit checklist
 - `references/tiktok-audit.md` — 25-check TikTok Ads audit checklist
 - `references/microsoft-audit.md` — 20-check Microsoft Ads audit checklist
+- `references/brand-dna-template.md` — Brand DNA schema and extraction guide
+- `references/image-providers.md` — Provider config (Gemini/OpenAI/Stability/Replicate)
+- `references/google-creative-specs.md` — PMax/RSA/YouTube generation-ready specs
+- `references/meta-creative-specs.md` — Feed/Reels/Stories specs + safe zones
+- `references/linkedin-creative-specs.md` — Single image/video B2B constraints
+- `references/tiktok-creative-specs.md` — 9:16 only + safe zone overlay
+- `references/youtube-creative-specs.md` — Skippable/Bumper/Shorts/Thumbnail
+- `references/microsoft-creative-specs.md` — Multimedia Ads + RSA subset
 
 ## Scoring Methodology
 
@@ -150,7 +164,7 @@ Aggregate = Sum(Platform_Score x Platform_Budget_Share)
 
 ## Sub-Skills
 
-This skill orchestrates 12 specialized sub-skills:
+This skill orchestrates 17 specialized sub-skills:
 
 1. **ads-audit** — Full multi-platform audit with parallel delegation
 2. **ads-google** — Google Ads deep analysis (Search, PMax, YouTube)
@@ -165,6 +179,10 @@ This skill orchestrates 12 specialized sub-skills:
 11. **ads-plan** — Strategic ad planning with industry templates
 12. **ads-competitor** — Competitor ad intelligence
 13. **ads-apple** — Apple Search Ads (ASA) deep analysis
+14. **ads-dna** — Brand DNA extraction from website URL
+15. **ads-create** — Campaign concepts, copy decks, creative briefs
+16. **ads-generate** — AI image generation with pluggable providers
+17. **ads-photoshoot** — Product photography in 5 professional styles
 
 ## Subagents
 
@@ -175,3 +193,7 @@ For parallel analysis during full audits:
 - `audit-tracking` — Conversion tracking health across all platforms
 - `audit-budget` — Budget, bidding, structure for LinkedIn, TikTok, Microsoft
 - `audit-compliance` — Compliance, settings, performance across all platforms
+- `creative-strategist` — Campaign concepts from brand profile + audit results (Opus, maxTurns: 25)
+- `visual-designer` — Image generation with brand injection via generate_image.py (Sonnet, maxTurns: 30)
+- `copy-writer` — Headlines, CTAs, primary text within platform limits (Sonnet, maxTurns: 20)
+- `format-adapter` — Asset dimension validation and spec compliance reporting (Haiku, maxTurns: 15)

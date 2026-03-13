@@ -24,7 +24,8 @@ function Main {
     $SubSkills = @(
         "ads-audit", "ads-google", "ads-meta", "ads-youtube",
         "ads-linkedin", "ads-tiktok", "ads-microsoft", "ads-creative",
-        "ads-landing", "ads-budget", "ads-plan", "ads-competitor", "ads-apple"
+        "ads-landing", "ads-budget", "ads-plan", "ads-competitor", "ads-apple",
+        "ads-dna", "ads-create", "ads-generate", "ads-photoshoot"
     )
     foreach ($skill in $SubSkills) {
         $SkillPath = Join-Path $ClaudeDir "skills\$skill"
@@ -36,7 +37,8 @@ function Main {
     # Remove agents
     $Agents = @(
         "audit-google", "audit-meta", "audit-creative",
-        "audit-tracking", "audit-budget", "audit-compliance"
+        "audit-tracking", "audit-budget", "audit-compliance",
+        "creative-strategist", "visual-designer", "copy-writer", "format-adapter"
     )
     foreach ($agent in $Agents) {
         $AgentPath = Join-Path $ClaudeDir "agents\$agent.md"
