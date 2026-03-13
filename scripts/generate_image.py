@@ -325,8 +325,8 @@ def generate_image(
         print(f"Error: Unknown provider '{provider}'", file=sys.stderr)
         sys.exit(1)
 
-    # Use actual dimensions from the generated image (may differ from requested
-    # when provider maps to a different native ratio, e.g. 1.91:1 → Gemini 16:9)
+    # Read actual dimensions from image header — handles ratio remapping
+    # (e.g. 1.91:1 request → Gemini generates 16:9 natively)
     actual = _actual_dimensions(image_bytes)
     if actual:
         width, height = actual

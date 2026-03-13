@@ -34,8 +34,8 @@ export ADS_IMAGE_PROVIDER="openai"
 **Batch API**: 24-hour turnaround. Pass `--batch prompts.json` to `generate_image.py`.
 Use for bulk campaign generation (10+ images). Not available for interactive single-image calls.
 
-**Deprecated model**: `gemini-3-pro-image-preview` (Nano Banana Pro) was deprecated March 9, 2026.
-Migrate to `gemini-2.5-flash-image` (GA) or `gemini-3.1-flash-image-preview` (preview, higher quality).
+**Deprecated model**: `gemini-3-pro-image-preview` (Nano Banana Pro) was shut down March 9, 2026.
+Official migration path: `gemini-3.1-flash-image-preview` (Nano Banana 2, per Google docs).
 
 **Preview upgrade**: `gemini-3.1-flash-image-preview` (Nano Banana 2) is available for higher quality
 but carries preview status — Google may update behavior without the GA deprecation notice window.
