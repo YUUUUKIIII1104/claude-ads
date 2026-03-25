@@ -16,12 +16,13 @@ description: >
 2. **Detect business type** — analyze account signals per ads orchestrator
 3. **Identify active platforms** — determine which platforms are in use
 4. **Delegate to subagents** (if available, otherwise run inline sequentially):
-   - `audit-google` — Conversion tracking, wasted spend, structure, keywords, ads, settings (G01-G74)
-   - `audit-meta` — Pixel/CAPI health, creative fatigue, structure, audience (M01-M46)
-   - `audit-creative` — LinkedIn, TikTok, Microsoft creative checks + cross-platform synthesis
-   - `audit-tracking` — LinkedIn, TikTok, Microsoft tracking + cross-platform tracking health
-   - `audit-budget` — LinkedIn, TikTok, Microsoft budget/bidding + cross-platform allocation
-   - `audit-compliance` — All-platform compliance, settings, performance benchmarks
+
+@ref ../../agents/audit-google.md
+@ref ../../agents/audit-meta.md
+@ref ../../agents/audit-creative.md
+@ref ../../agents/audit-tracking.md
+@ref ../../agents/audit-budget.md
+@ref ../../agents/audit-compliance.md
 5. **Score** — calculate per-platform and aggregate Ads Health Score (0-100)
 6. **Report** — generate prioritized action plan with Quick Wins
 

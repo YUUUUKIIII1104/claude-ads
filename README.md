@@ -240,9 +240,46 @@ curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-ads/main/uninst
 irm https://raw.githubusercontent.com/AgriciDaniel/claude-ads/main/uninstall.ps1 | iex
 ```
 
+## Fork Changes (dotmd-parser integration)
+
+This fork adds explicit dependency declarations using [dotmd-parser](https://github.com/dotmd-io/dotmd-parser) `@ref` directives, making the full dependency graph machine-readable and extensible.
+
+### What Changed
+
+| File | Change |
+|------|--------|
+| `ads/SKILL.md` | Added `@ref` directives for 17 sub-skills and 10 subagents |
+| `skills/ads-audit/SKILL.md` | Added `@ref` directives for 6 subagents |
+| `skills/ads-plan/SKILL.md` | Added `@ref` directives for 11 industry templates |
+| `ads/research-sources/deps.yml` | New manifest for 5 research source documents |
+
+### Dependency Graph (Before → After)
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Detected nodes | 31 | 42 (+11) |
+| Detected edges | 71 | 106 (+35) |
+| Undetected files | 20 | 9 |
+| Edge types | `read-ref` only | `read-ref` + `@ref` |
+
+### Why
+
+- **Machine-readable**: `dotmd-parser` can now build a complete dependency graph from `ads/SKILL.md` as a single entry point (31 nodes, 30 edges, 0 warnings)
+- **Extensible**: Adding new sub-skills or templates only requires adding an `@ref` directive — the graph updates automatically
+- **Visualizable**: The graph can be rendered in [dotmd-io](https://github.com/dotmd-io/dotmd-io) web editor with ReactFlow
+
+### Verify
+
+```bash
+pip install dotmd-parser
+dotmd-parser ./ads/              # Full graph from orchestrator
+dotmd-parser ./skills/ads-plan/  # Plan skill with 11 templates
+```
+
 ## Related Projects
 
 - [Claude SEO](https://github.com/AgriciDaniel/claude-seo) — Comprehensive SEO analysis skill for Claude Code
+- [dotmd-parser](https://github.com/dotmd-io/dotmd-parser) — Dependency graph parser for .md skill files
 
 ## License
 
@@ -250,4 +287,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-Built for Claude Code by [@AgriciDaniel](https://github.com/AgriciDaniel)
+Built for Claude Code by [@AgriciDaniel](https://github.com/AgriciDaniel) | Fork maintained by [@YUUUUKIIII1104](https://github.com/YUUUUKIIII1104)

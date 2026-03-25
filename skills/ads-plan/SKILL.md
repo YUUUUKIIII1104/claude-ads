@@ -147,17 +147,18 @@ Before launching any ads, ensure tracking is configured:
 ## Industry Templates
 
 Load from `assets/` directory based on detected or specified business type:
-- `saas.md` — SaaS companies
-- `ecommerce.md` — E-commerce stores
-- `local-service.md` — Local service businesses
-- `b2b-enterprise.md` — B2B enterprise
-- `info-products.md` — Info products and courses
-- `mobile-app.md` — Mobile app companies
-- `real-estate.md` — Real estate
-- `healthcare.md` — Healthcare
-- `finance.md` — Financial services
-- `agency.md` — Marketing agencies
-- `generic.md` — General business template
+
+@ref assets/saas.md
+@ref assets/ecommerce.md
+@ref assets/local-service.md
+@ref assets/b2b-enterprise.md
+@ref assets/info-products.md
+@ref assets/mobile-app.md
+@ref assets/real-estate.md
+@ref assets/healthcare.md
+@ref assets/finance.md
+@ref assets/agency.md
+@ref assets/generic.md
 
 ## Output
 

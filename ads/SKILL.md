@@ -166,34 +166,35 @@ Aggregate = Sum(Platform_Score x Platform_Budget_Share)
 
 This skill orchestrates 17 specialized sub-skills:
 
-1. **ads-audit** — Full multi-platform audit with parallel delegation
-2. **ads-google** — Google Ads deep analysis (Search, PMax, YouTube)
-3. **ads-meta** — Meta Ads deep analysis (FB, IG, Advantage+)
-4. **ads-youtube** — YouTube Ads specific analysis
-5. **ads-linkedin** — LinkedIn Ads deep analysis
-6. **ads-tiktok** — TikTok Ads deep analysis
-7. **ads-microsoft** — Microsoft/Bing Ads deep analysis
-8. **ads-creative** — Cross-platform creative quality audit
-9. **ads-landing** — Landing page quality for ad campaigns
-10. **ads-budget** — Budget allocation and bidding strategy
-11. **ads-plan** — Strategic ad planning with industry templates
-12. **ads-competitor** — Competitor ad intelligence
-13. **ads-apple** — Apple Search Ads (ASA) deep analysis
-14. **ads-dna** — Brand DNA extraction from website URL
-15. **ads-create** — Campaign concepts, copy decks, creative briefs
-16. **ads-generate** — AI image generation with pluggable providers
-17. **ads-photoshoot** — Product photography in 5 professional styles
+@ref ../skills/ads-audit/SKILL.md
+@ref ../skills/ads-google/SKILL.md
+@ref ../skills/ads-meta/SKILL.md
+@ref ../skills/ads-youtube/SKILL.md
+@ref ../skills/ads-linkedin/SKILL.md
+@ref ../skills/ads-tiktok/SKILL.md
+@ref ../skills/ads-microsoft/SKILL.md
+@ref ../skills/ads-creative/SKILL.md
+@ref ../skills/ads-landing/SKILL.md
+@ref ../skills/ads-budget/SKILL.md
+@ref ../skills/ads-plan/SKILL.md
+@ref ../skills/ads-competitor/SKILL.md
+@ref ../skills/ads-apple/SKILL.md
+@ref ../skills/ads-dna/SKILL.md
+@ref ../skills/ads-create/SKILL.md
+@ref ../skills/ads-generate/SKILL.md
+@ref ../skills/ads-photoshoot/SKILL.md
 
 ## Subagents
 
 For parallel analysis during full audits:
-- `audit-google` — Google Ads checks (G01-G74)
-- `audit-meta` — Meta Ads checks (M01-M46)
-- `audit-creative` — Creative quality for LinkedIn, TikTok, Microsoft
-- `audit-tracking` — Conversion tracking health across all platforms
-- `audit-budget` — Budget, bidding, structure for LinkedIn, TikTok, Microsoft
-- `audit-compliance` — Compliance, settings, performance across all platforms
-- `creative-strategist` — Campaign concepts from brand profile + audit results (Opus, maxTurns: 25)
-- `visual-designer` — Image generation with brand injection via generate_image.py (Sonnet, maxTurns: 30)
-- `copy-writer` — Headlines, CTAs, primary text within platform limits (Sonnet, maxTurns: 20)
-- `format-adapter` — Asset dimension validation and spec compliance reporting (Haiku, maxTurns: 15)
+
+@ref ../agents/audit-google.md
+@ref ../agents/audit-meta.md
+@ref ../agents/audit-creative.md
+@ref ../agents/audit-tracking.md
+@ref ../agents/audit-budget.md
+@ref ../agents/audit-compliance.md
+@ref ../agents/creative-strategist.md
+@ref ../agents/visual-designer.md
+@ref ../agents/copy-writer.md
+@ref ../agents/format-adapter.md

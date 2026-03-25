@@ -1,0 +1,14 @@
+- path: claude-research.md
+  includes: []
+
+- path: gemini-research.md
+  includes: []
+
+- path: google-audit-checklists.md
+  includes: []
+
+- path: google-optimization-logic.md
+  includes: []
+
+- path: google-platform-specs.md
+  includes: []
