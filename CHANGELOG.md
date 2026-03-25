@@ -5,6 +5,29 @@ All notable changes to claude-ads are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1-fork] - 2026-03-25
+
+### Added
+- **dotmd-parser `@ref` directives** across orchestrator and sub-skills for machine-readable dependency graph
+  - `ads/SKILL.md`: 17 sub-skills + 10 subagents declared via `@ref`
+  - `skills/ads-audit/SKILL.md`: 6 audit subagents declared via `@ref`
+  - `skills/ads-plan/SKILL.md`: 11 industry templates declared via `@ref`
+  - `ads/research-sources/deps.yml`: manifest for 5 research source documents
+- **README**: "Fork Changes" section with dependency graph analysis, usage examples, and dotmd-parser/dotmd-io showcase
+- **README**: Table of Contents link to Fork Changes section
+
+### Changed
+- Sub-skill and subagent listings in `ads/SKILL.md` converted from prose lists to `@ref` directives (functionally equivalent, now parseable by dotmd-parser)
+- Industry template listings in `skills/ads-plan/SKILL.md` converted from backtick-quoted names to `@ref` directives
+
+### Dependency Graph Impact
+- Detected nodes: 31 → 42 (+35%)
+- Detected edges: 71 → 106 (+49%)
+- Undetected files: 20 → 9
+- `dotmd-parser ./ads/` now returns full graph (31 nodes, 30 edges, 0 warnings) from single entry point
+
+> Fork of [AgriciDaniel/claude-ads](https://github.com/AgriciDaniel/claude-ads) with [dotmd-parser](https://github.com/dotmd-io/dotmd-parser) integration.
+
 ## [1.2.0] - 2026-03-12
 
 ### Added
