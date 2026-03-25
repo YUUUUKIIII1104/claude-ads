@@ -23,6 +23,7 @@ Comprehensive paid advertising audit and optimization skill for Claude Code. Cov
 - [FAQ](#faq)
 - [Requirements](#requirements)
 - [Uninstall](#uninstall)
+- [Fork Changes — Dependency Graph with dotmd-parser](#fork-changes--dependency-graph-with-dotmd-parser)
 - [Related Projects](#related-projects)
 - [License](#license)
 
@@ -240,41 +241,91 @@ curl -fsSL https://raw.githubusercontent.com/AgriciDaniel/claude-ads/main/uninst
 irm https://raw.githubusercontent.com/AgriciDaniel/claude-ads/main/uninstall.ps1 | iex
 ```
 
-## Fork Changes (dotmd-parser integration)
+## Fork Changes — Dependency Graph with dotmd-parser
 
-This fork adds explicit dependency declarations using [dotmd-parser](https://github.com/dotmd-io/dotmd-parser) `@ref` directives, making the full dependency graph machine-readable and extensible.
+> This fork integrates **[dotmd-parser](https://github.com/dotmd-io/dotmd-parser)** to make the entire skill architecture machine-readable, visualizable, and extensible.
+
+### The Problem
+
+Claude Ads has 56+ `.md` files across skills, agents, references, and templates — but the relationships between them were only described in prose. There was no way to programmatically answer questions like:
+- "What breaks if I edit `benchmarks.md`?" (16 files depend on it)
+- "Does this new skill connect to the orchestrator?"
+- "Are there orphaned files nobody references?"
+
+### The Solution — dotmd-parser
+
+[**dotmd-parser**](https://github.com/dotmd-io/dotmd-parser) is an open-source dependency graph parser for `.md` skill files. It detects `@include`, `@delegate`, `@ref` directives and `Read`/`See` references, then builds a complete DAG (directed acyclic graph) of your skill architecture.
+
+```bash
+pip install dotmd-parser
+dotmd-parser ./ads/
+```
+
+```
+Nodes: 31  (agent:10, reference:12, skill:17, template:11, ...)
+Edges: 30  (read-ref:12, ref:18)
+Warnings: 0
+```
 
 ### What Changed
 
 | File | Change |
 |------|--------|
 | `ads/SKILL.md` | Added `@ref` directives for 17 sub-skills and 10 subagents |
-| `skills/ads-audit/SKILL.md` | Added `@ref` directives for 6 subagents |
+| `skills/ads-audit/SKILL.md` | Added `@ref` directives for 6 audit subagents |
 | `skills/ads-plan/SKILL.md` | Added `@ref` directives for 11 industry templates |
 | `ads/research-sources/deps.yml` | New manifest for 5 research source documents |
 
-### Dependency Graph (Before → After)
+### Dependency Graph (Before vs After)
 
 | Metric | Before | After |
 |--------|--------|-------|
-| Detected nodes | 31 | 42 (+11) |
-| Detected edges | 71 | 106 (+35) |
+| Detected nodes | 31 | 42 (+35%) |
+| Detected edges | 71 | 106 (+49%) |
 | Undetected files | 20 | 9 |
 | Edge types | `read-ref` only | `read-ref` + `@ref` |
 
-### Why
+### What You Can Do Now
 
-- **Machine-readable**: `dotmd-parser` can now build a complete dependency graph from `ads/SKILL.md` as a single entry point (31 nodes, 30 edges, 0 warnings)
-- **Extensible**: Adding new sub-skills or templates only requires adding an `@ref` directive — the graph updates automatically
-- **Visualizable**: The graph can be rendered in [dotmd-io](https://github.com/dotmd-io/dotmd-io) web editor with ReactFlow
-
-### Verify
-
+**Impact analysis** — Find every file affected by a change:
 ```bash
-pip install dotmd-parser
-dotmd-parser ./ads/              # Full graph from orchestrator
-dotmd-parser ./skills/ads-plan/  # Plan skill with 11 templates
+python -c "
+from dotmd_parser import build_graph, dependents_of
+g = build_graph('./ads/')
+print(dependents_of(g, 'ads/references/benchmarks.md'))
+"
+# → 16 files depend on benchmarks.md
 ```
+
+**Visualize** — Render the full architecture as an interactive graph in [dotmd-io](https://github.com/dotmd-io/dotmd-io) web editor (Monaco + ReactFlow):
+
+```
+ads/SKILL.md (orchestrator)
+├── @ref skills/ads-google/SKILL.md
+│   ├── Read ads/references/google-audit.md
+│   ├── Read ads/references/benchmarks.md
+│   └── Read ads/references/scoring-system.md
+├── @ref skills/ads-plan/SKILL.md
+│   ├── @ref assets/saas.md
+│   ├── @ref assets/ecommerce.md
+│   └── ... (11 industry templates)
+├── @ref agents/audit-google.md
+│   ├── Read ads/references/google-audit.md
+│   └── Read ads/references/benchmarks.md
+└── ... (17 skills + 10 agents total)
+```
+
+**Extend** — Adding a new sub-skill is one line:
+```markdown
+@ref ../skills/ads-new-platform/SKILL.md
+```
+
+### Related Tools
+
+| Tool | What it does |
+|------|-------------|
+| [dotmd-parser](https://github.com/dotmd-io/dotmd-parser) | Parse `@include`/`@delegate`/`@ref` directives → dependency graph (JSON) |
+| [dotmd-io](https://github.com/dotmd-io/dotmd-io) | Web editor with Monaco + ReactFlow for visualizing and editing skill files |
 
 ## Related Projects
 
